@@ -33,7 +33,9 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
+        jMenu10 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
+        jMenu9 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
@@ -51,9 +53,17 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
         jMenuBar2.add(jMenu3);
 
         jMenu4.setText("REGISTRAR DISPOSITIVO");
+
+        jMenu10.setText("jMenu10");
+        jMenu4.add(jMenu10);
+
         jMenuBar2.add(jMenu4);
 
         jMenu1.setText("MIS DISPOSITIVOS");
+
+        jMenu9.setText("jMenu9");
+        jMenu1.add(jMenu9);
+
         jMenuBar2.add(jMenu1);
 
         jMenu7.setText("CONSUMO");
@@ -107,6 +117,7 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -114,6 +125,7 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuBar jMenuBar3;
     // End of variables declaration//GEN-END:variables

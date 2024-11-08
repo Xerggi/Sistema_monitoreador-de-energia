@@ -14,4 +14,5 @@ public class Dispositivo {
     private String tipo;
     private double consumoEstimado;
     private double consumoActual;
+    private int usuarioId;
 }

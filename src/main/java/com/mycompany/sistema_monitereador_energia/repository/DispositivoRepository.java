@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface DispositivoRepository {
     void agregarDispositivo(Dispositivo dispositivo);
-    List<Dispositivo> obtenerTodosLosDispositivos();
+    List<Dispositivo> obtenerDispositivosUsuario(int usuarioId);
     void eliminarDispositivo(int id);
 }

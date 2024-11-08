@@ -1,27 +1,25 @@
 
 package com.mycompany.sistema_monitereador_energia.repository;
 
-import com.mycompany.sistema_monitereador_energia.util.DatabaseConnection;
+
 import com.mycompany.sistema_monitereador_energia.model.Usuario;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class UsuarioRepositoryPostgre implements UsuarioRepository{
-    private Connection connection;
+public abstract class UsuarioRepositoryPostgre implements UsuarioRepository{
 
-    public UsuarioRepositoryPostgre() throws SQLException {
-        this.connection = DatabaseConnection.getInstance().getConnection();
-    }
+    protected abstract Connection getConnection() throws SQLException;
 
     @Override
     public void agregarUsuario(Usuario usuario) {
         String query = "INSERT INTO usuarios(nombre, contrasena) VALUES (?, ?)";
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setString(1, usuario.getNombre());
-            pstmt.setString(2,usuario.getContrasena());
-            pstmt.executeUpdate();
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, usuario.getNombre());
+            stmt.setString(2,usuario.getContrasena());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -30,7 +28,8 @@ public class UsuarioRepositoryPostgre implements UsuarioRepository{
     @Override
     public Usuario obtenerUsuario(int id) {
          String query = "SELECT * FROM usuarios WHERE id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -46,7 +45,8 @@ public class UsuarioRepositoryPostgre implements UsuarioRepository{
     public List<Usuario> obtenerTodosLosUsuarios() {
         List<Usuario> empleados = new ArrayList<>();
         String query = "SELECT * FROM usuarios";
-        try (Statement stmt = connection.createStatement();
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 empleados.add(new Usuario(rs.getInt("id"),
@@ -62,7 +62,8 @@ public class UsuarioRepositoryPostgre implements UsuarioRepository{
     @Override
     public void eliminarUsuario(int id) {
         String query = "DELETE FROM usuarios WHERE id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -73,7 +74,8 @@ public class UsuarioRepositoryPostgre implements UsuarioRepository{
     @Override
     public void actualizarUsuario(Usuario usuario) {
         String query = "UPDATE usuarios SET nombre = ?, contrasena = ? WHERE id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, usuario.getNombre());
             pstmt.setString(2, usuario.getContrasena());
             pstmt.setInt(3, usuario.getId());
@@ -86,7 +88,8 @@ public class UsuarioRepositoryPostgre implements UsuarioRepository{
     @Override
     public Usuario obtenerUsuarioNombre(String nombre) {
         String query = "SELECT * FROM usuarios WHERE nombre = ?";
-    try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+    try (Connection conn = getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(query)) {
         pstmt.setString(1, nombre);
         ResultSet rs = pstmt.executeQuery();
         if (rs.next()) {
