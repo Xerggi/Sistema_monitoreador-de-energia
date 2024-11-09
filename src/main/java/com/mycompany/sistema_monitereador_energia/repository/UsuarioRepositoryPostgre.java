@@ -8,21 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class UsuarioRepositoryPostgre implements UsuarioRepository{
+public abstract  class UsuarioRepositoryPostgre implements UsuarioRepository{
 
     protected abstract Connection getConnection() throws SQLException;
 
     @Override
     public void agregarUsuario(Usuario usuario) {
         String query = "INSERT INTO usuarios(nombre, contrasena) VALUES (?, ?)";
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, usuario.getNombre());
-            stmt.setString(2,usuario.getContrasena());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, usuario.getNombre());
+        stmt.setString(2, usuario.getContrasena());
+        stmt.executeUpdate();
+        System.out.println("Usuario agregado exitosamente: " + usuario.getNombre());
+    } catch (SQLException e) {
+        System.out.println("Error al agregar usuario: " + e.getMessage());
+        e.printStackTrace();
+    }
     }
 
     @Override
@@ -101,6 +103,25 @@ public abstract class UsuarioRepositoryPostgre implements UsuarioRepository{
     return null;
     }
     
-    
-    
+    @Override
+    public boolean validarUsuario(String nombre, String contrasena){
+        String query = "SELECT * FROM usuarios WHERE nombre = ? AND contrasena = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setString(1, nombre);
+        pstmt.setString(2, contrasena);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            System.out.println("Autenticación exitosa para el usuario: " + nombre);
+            return true;
+        } else {
+            System.out.println("Autenticación fallida para el usuario: " + nombre);
+            return false;
+        }
+    } catch (SQLException e) {
+        System.out.println("Error al validar usuario: " + e.getMessage());
+        e.printStackTrace();
+        return false;
+    }
+   }
 }

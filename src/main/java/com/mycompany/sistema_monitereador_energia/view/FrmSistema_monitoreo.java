@@ -1,13 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.sistema_monitereador_energia.view;
 
-/**
- *
- * @author Xerggi
- */
+
 public class FrmSistema_monitoreo extends javax.swing.JFrame {
 
     /**
@@ -30,15 +24,18 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
         jMenuBar3 = new javax.swing.JMenuBar();
         jMenu5 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
+        jMenu11 = new javax.swing.JMenu();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        MnuSalir = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
-        jMenu10 = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu9 = new javax.swing.JMenu();
+        MnuRegistroDispositivos = new javax.swing.JMenuItem();
+        MnuMisDispositivos = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
 
         jMenu5.setText("File");
         jMenuBar3.add(jMenu5);
@@ -46,39 +43,80 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
         jMenu6.setText("Edit");
         jMenuBar3.add(jMenu6);
 
+        jMenu11.setText("jMenu11");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jMenu3.setText("INICIO");
+
+        jMenuItem1.setText("Principal");
+        jMenu3.add(jMenuItem1);
+
+        MnuSalir.setText("Salir");
+        MnuSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnuSalirActionPerformed(evt);
+            }
+        });
+        jMenu3.add(MnuSalir);
+
         jMenuBar2.add(jMenu3);
 
-        jMenu4.setText("REGISTRAR DISPOSITIVO");
+        jMenu4.setText("DISPOSITIVOS");
 
-        jMenu10.setText("jMenu10");
-        jMenu4.add(jMenu10);
+        MnuRegistroDispositivos.setText("Registro Dispositivos");
+        MnuRegistroDispositivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnuRegistroDispositivosActionPerformed(evt);
+            }
+        });
+        jMenu4.add(MnuRegistroDispositivos);
+
+        MnuMisDispositivos.setText("Mis Dispositivos");
+        MnuMisDispositivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnuMisDispositivosActionPerformed(evt);
+            }
+        });
+        jMenu4.add(MnuMisDispositivos);
 
         jMenuBar2.add(jMenu4);
 
-        jMenu1.setText("MIS DISPOSITIVOS");
-
-        jMenu9.setText("jMenu9");
-        jMenu1.add(jMenu9);
-
-        jMenuBar2.add(jMenu1);
-
         jMenu7.setText("CONSUMO");
+
+        jMenuItem5.setText("Graficos de consumo");
+        jMenu7.add(jMenuItem5);
+
         jMenuBar2.add(jMenu7);
 
-        jMenu2.setText("NOTIFICACIONES");
-        jMenuBar2.add(jMenu2);
-
         jMenu8.setText("OPCIONES");
+
+        jMenuItem6.setText("Modificar datos Usuario");
+        jMenu8.add(jMenuItem6);
+
         jMenuBar2.add(jMenu8);
 
         setJMenuBar(jMenuBar2);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void MnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnuSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_MnuSalirActionPerformed
+
+    private void MnuRegistroDispositivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnuRegistroDispositivosActionPerformed
+        FrmRegistro_Dispositivos frm_regis = new FrmRegistro_Dispositivos();
+        frm_regis.setVisible(true);
+        frm_regis.setLocationRelativeTo(this);
+        
+    }//GEN-LAST:event_MnuRegistroDispositivosActionPerformed
+
+    private void MnuMisDispositivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnuMisDispositivosActionPerformed
+        FrmMis_Dispositivos frm_mis = new FrmMis_Dispositivos();
+        frm_mis.setVisible(true);
+    }//GEN-LAST:event_MnuMisDispositivosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -116,17 +154,20 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu10;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem MnuMisDispositivos;
+    private javax.swing.JMenuItem MnuRegistroDispositivos;
+    private javax.swing.JMenuItem MnuSalir;
+    private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuBar jMenuBar3;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     // End of variables declaration//GEN-END:variables
 }

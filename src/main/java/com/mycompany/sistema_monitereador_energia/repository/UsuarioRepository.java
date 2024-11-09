@@ -12,4 +12,6 @@ public interface UsuarioRepository {
     List<Usuario> obtenerTodosLosUsuarios();
     void actualizarUsuario(Usuario usuario);
     void eliminarUsuario(int id);
+    
+    boolean validarUsuario(String nombre, String contrasena);
 }

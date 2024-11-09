@@ -1,8 +1,13 @@
 
 package com.mycompany.sistema_monitereador_energia.view;
 
+import com.mycompany.sistema_monitereador_energia.factory.UsuarioRepositoryFactory;
+import com.mycompany.sistema_monitereador_energia.model.DatabaseType;
 import com.mycompany.sistema_monitereador_energia.model.Usuario;
+import com.mycompany.sistema_monitereador_energia.repository.UsuarioRepository;
 import com.mycompany.sistema_monitereador_energia.repository.UsuarioRepositoryPostgre;
+import com.mycompany.sistema_monitereador_energia.service.UsuarioService;
+import java.awt.HeadlessException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -10,10 +15,13 @@ import javax.swing.JOptionPane;
 
 
 public class FrmRegistro_usuario extends javax.swing.JFrame {
-    
+
+    private final UsuarioService usuarioService;
     
     public FrmRegistro_usuario() {
         initComponents();
+        DatabaseType tipoBaseDatos = DatabaseType.MYSQL; // Puedes cambiar el tipo de base de datos según se requiera
+        usuarioService = UsuarioService.getInstance(UsuarioRepositoryFactory.getRepository(tipoBaseDatos));
     }
 
     /**
@@ -33,20 +41,24 @@ public class FrmRegistro_usuario extends javax.swing.JFrame {
         btnsalir = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
+        cmbDatabaseType = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(73, 181, 172));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel13.setFont(new java.awt.Font("Palatino Linotype", 0, 24)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("SISTEMA DE ENERGIA ");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 48, -1, -1));
 
         txtregistrocontraseña.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jPanel1.add(txtregistrocontraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 257, 290, 50));
 
         txtregistronombreusuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jPanel1.add(txtregistronombreusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 158, 290, 50));
 
         btnregistrar.setBackground(new java.awt.Color(33, 45, 62));
         btnregistrar.setForeground(new java.awt.Color(255, 255, 255));
@@ -56,6 +68,7 @@ public class FrmRegistro_usuario extends javax.swing.JFrame {
                 btnregistrarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnregistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(79, 453, -1, 49));
 
         btnsalir.setBackground(new java.awt.Color(33, 45, 62));
         btnsalir.setForeground(new java.awt.Color(255, 255, 255));
@@ -65,89 +78,35 @@ public class FrmRegistro_usuario extends javax.swing.JFrame {
                 btnsalirActionPerformed(evt);
             }
         });
+        jPanel1.add(btnsalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 455, -1, 45));
 
         jLabel16.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Seleccion la base de datos");
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 343, -1, -1));
 
         jLabel17.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("NOMBRE DE USUARIO");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 133, -1, -1));
 
         jLabel18.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("CONTRASEÑA");
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 236, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel13)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtregistronombreusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel17)
-                                .addComponent(txtregistrocontraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnregistrar)
-                                .addGap(83, 83, 83)
-                                .addComponent(btnsalir))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(111, 111, 111)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(69, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel16)
-                .addGap(130, 130, 130))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(60, 60, 60)
-                    .addComponent(jLabel18)
-                    .addContainerGap(258, Short.MAX_VALUE)))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(jLabel13)
-                .addGap(52, 52, 52)
-                .addComponent(jLabel17)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtregistronombreusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addComponent(txtregistrocontraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnregistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnsalir, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(236, 236, 236)
-                    .addComponent(jLabel18)
-                    .addContainerGap(348, Short.MAX_VALUE)))
-        );
+        cmbDatabaseType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MySQL", "PostgreSQL", "TextFile" }));
+        jPanel1.add(cmbDatabaseType, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 390, 180, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
         );
 
         pack();
@@ -158,19 +117,38 @@ public class FrmRegistro_usuario extends javax.swing.JFrame {
         String nombre = txtregistronombreusuario.getText();
         String contrasena = txtregistrocontraseña.getText();
         
+        if (nombre.isEmpty() || contrasena.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+        return; 
+    }
+        String selectedDb = (String) cmbDatabaseType.getSelectedItem();
+        DatabaseType dbType;
+        
+        switch (selectedDb) {
+        case "MySQL" -> dbType = DatabaseType.MYSQL;
+        case "PostgreSQL" -> dbType = DatabaseType.POSTGRESQL;
+        case "TextFile" -> dbType = DatabaseType.TEXTFILE;
+        default -> {
+            JOptionPane.showMessageDialog(this, "Tipo de base de datos no válido.");
+            return;
+        }
+    }
+        
+        UsuarioRepository usuarioRepo = UsuarioRepositoryFactory.getRepository(dbType);
+        UsuarioService usuarioService = UsuarioService.getInstance(usuarioRepo);
+        
+        
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre);
         usuario.setContrasena(contrasena);
         
         try {
-        UsuarioRepositoryPostgre usuarioRepo = new UsuarioRepositoryPostgre() {};
-        usuarioRepo.agregarUsuario(usuario);
-        JOptionPane.showMessageDialog(this, "Usuario registrado con éxito");
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage());
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error al registrar usuario: " + ex.getMessage());
-    }
+            usuarioService.agregarUsuario(usuario);
+            JOptionPane.showMessageDialog(this, "Usuario registrado con éxito");
+            limpiar();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al registrar usuario: " + ex.getMessage());
+        }
         
         limpiar();
         
@@ -223,7 +201,7 @@ public class FrmRegistro_usuario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnregistrar;
     private javax.swing.JButton btnsalir;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cmbDatabaseType;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;

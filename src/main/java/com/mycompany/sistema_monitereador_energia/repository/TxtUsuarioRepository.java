@@ -138,4 +138,20 @@ public class TxtUsuarioRepository implements UsuarioRepository{
         }
     }   
 
+    @Override
+    public boolean validarUsuario(String nombre, String contrasena) {
+         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] data = line.split(",");
+            if (data[1].equalsIgnoreCase(nombre) && data[2].equals(contrasena)) {
+                return true; // Usuario válido
+            }
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return false;
+    }
+
 }
