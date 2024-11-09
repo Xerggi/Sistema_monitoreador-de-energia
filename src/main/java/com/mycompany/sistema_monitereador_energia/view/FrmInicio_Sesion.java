@@ -14,6 +14,7 @@ import com.mycompany.sistema_monitereador_energia.view.FrmRegistro_usuario;
 import com.mycompany.sistema_monitereador_energia.view.FrmSistema_monitoreo;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
+import java.util.Map;
 import javax.swing.JOptionPane;
 
 
@@ -172,19 +173,42 @@ public class FrmInicio_Sesion extends javax.swing.JFrame {
         if (nombre.isEmpty() || contrasena.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
         return; 
-    }
+    }   
+        
+        //eliminar en caso de error
+        
+        
+        
+         Map<String, DatabaseType> dbTypeMap = Map.of(
+        "MySQL", DatabaseType.MYSQL,
+        "PostgreSQL", DatabaseType.POSTGRESQL,
+        "TextFile", DatabaseType.TEXTFILE
+        );
+        
+        
         String selectedDb = (String) cmbDatabaseType.getSelectedItem();
         
-        DatabaseType dbType;
-        switch (selectedDb) {
-        case "MySQL" -> dbType = DatabaseType.MYSQL;
-        case "PostgreSQL" -> dbType = DatabaseType.POSTGRESQL;
-        case "TextFile" -> dbType = DatabaseType.TEXTFILE;
-        default -> {
+        
+        //FUNCION LAMBDA
+        
+        //DatabaseType dbType;
+        //switch (selectedDb) {
+        //case "MySQL" -> dbType = DatabaseType.MYSQL;
+        //case "PostgreSQL" -> dbType = DatabaseType.POSTGRESQL;
+        //case "TextFile" -> dbType = DatabaseType.TEXTFILE;
+        //default -> {
+          //  JOptionPane.showMessageDialog(this, "Tipo de base de datos no válido.");
+           // return;
+        //}
+    //}
+    
+        //ELIMINAR EN CASO DE ERROR
+         DatabaseType dbType = dbTypeMap.getOrDefault(selectedDb, null);
+            if (dbType == null) {
             JOptionPane.showMessageDialog(this, "Tipo de base de datos no válido.");
             return;
         }
-    }
+    
         UsuarioRepository usuarioRepo = UsuarioRepositoryFactory.getRepository(dbType);
         UsuarioService usuarioService = UsuarioService.getInstance(usuarioRepo);
         
@@ -197,6 +221,7 @@ public class FrmInicio_Sesion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso.");
             FrmSistema_monitoreo frmsis = new FrmSistema_monitoreo();
             frmsis.setVisible(true);
+            limpiar();
         } else {
             JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
         }
