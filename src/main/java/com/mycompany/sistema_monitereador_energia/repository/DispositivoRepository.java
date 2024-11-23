@@ -9,4 +9,7 @@ public interface DispositivoRepository {
     void agregarDispositivo(Dispositivo dispositivo);
     List<Dispositivo> obtenerDispositivosUsuario(int usuarioId);
     void eliminarDispositivo(int id);
+    List<Dispositivo> obtenerTodosLosDispositivos();
+    
+    
 }

@@ -1,12 +1,28 @@
 
 package com.mycompany.sistema_monitereador_energia.view;
 
+import com.mycompany.sistema_monitereador_energia.controller.DispositivoController;
+import com.mycompany.sistema_monitereador_energia.model.Dispositivo;
+import com.mycompany.sistema_monitereador_energia.repository.DispositivoRepositoryPostgre;
+import com.mycompany.sistema_monitereador_energia.repository.MysqldispositivoRepository;
+import com.mycompany.sistema_monitereador_energia.service.DispositivoService;
+import com.mycompany.sistema_monitereador_energia.service.UsuarioService;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 public class FrmMis_Dispositivos extends javax.swing.JFrame {
 
     
     public FrmMis_Dispositivos() {
         initComponents();
+        
+        int usuarioId = UsuarioService.getInstance().obtenerUsuarioActual().getId();
+        cargarDispositivos(usuarioId);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -18,40 +34,34 @@ public class FrmMis_Dispositivos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabladispositivos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        btnEliminardispositivo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(620, 530));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jButton1.setText("ELIMINAR DISPOSITIVO");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, -1, -1));
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabladispositivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabladispositivos);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 530, 290));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 530, 290));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("MIS DISPOSITIVOS");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, -1, -1));
 
         jButton2.setText("CERRAR");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -59,9 +69,15 @@ public class FrmMis_Dispositivos extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 420, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 440, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 630, 480));
+        btnEliminardispositivo.setText("ELIMINAR DISPOSITIVO");
+        btnEliminardispositivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminardispositivoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnEliminardispositivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 440, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -70,6 +86,43 @@ public class FrmMis_Dispositivos extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btnEliminardispositivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminardispositivoActionPerformed
+        int filaSeleccionada = tabladispositivos.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            int idDispositivo = (int) tabladispositivos.getValueAt(filaSeleccionada, 0); // Obtener el ID del dispositivo seleccionado
+            DispositivoController controller = new DispositivoController(new DispositivoService(new MysqldispositivoRepository()));
+            controller.eliminarDispositivo(idDispositivo);
+            
+            int usuarioId = UsuarioService.getInstance().obtenerUsuarioActual().getId();
+            cargarDispositivos(usuarioId);
+            JOptionPane.showMessageDialog(null,"Dispositivo eliminado correctamente" ,"Mensaje de confirmacion",JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un dispositivo.");
+        }
+    }//GEN-LAST:event_btnEliminardispositivoActionPerformed
+    
+    private void cargarDispositivos(int usuarioId) {
+        MysqldispositivoRepository mysqldispositivorepository = new MysqldispositivoRepository();
+        DispositivoController controller = new DispositivoController(new DispositivoService(mysqldispositivorepository));
+        List<Dispositivo> dispositivos = controller.obtenerDispositivosUsuario(usuarioId);
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Consumo Estimado");
+        modelo.addColumn("Consumo Actual");
+
+        for (Dispositivo dispositivo : dispositivos) {
+            modelo.addRow(new Object[]{
+                dispositivo.getId(),
+                dispositivo.getTipo(),
+                dispositivo.getConsumoEstimado(),
+                dispositivo.getConsumoActual()
+            });
+        }
+
+        tabladispositivos.setModel(modelo);
+}
     /**
      * @param args the command line arguments
      */
@@ -106,11 +159,10 @@ public class FrmMis_Dispositivos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnEliminardispositivo;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabladispositivos;
     // End of variables declaration//GEN-END:variables
 }

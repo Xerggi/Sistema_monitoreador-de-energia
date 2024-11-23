@@ -4,6 +4,8 @@ package com.mycompany.sistema_monitereador_energia.service;
 import com.mycompany.sistema_monitereador_energia.model.Dispositivo;
 import com.mycompany.sistema_monitereador_energia.model.Usuario;
 import com.mycompany.sistema_monitereador_energia.repository.DispositivoRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DispositivoService {
@@ -22,4 +24,13 @@ public class DispositivoService {
 
         dispositivoRepository.agregarDispositivo(dispositivo);
     }
+    
+    public List<Dispositivo> obtenerDispositivosUsuario(int usuarioId) {
+        return dispositivoRepository.obtenerDispositivosUsuario(usuarioId);
+    }
+    
+    public void eliminarDispositivo(int id) {
+        dispositivoRepository.eliminarDispositivo(id);
+    }
+    
 }

@@ -25,6 +25,7 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
         jMenu11 = new javax.swing.JMenu();
+        lblnombreusuario = new javax.swing.JLabel();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -33,9 +34,9 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
         MnuRegistroDispositivos = new javax.swing.JMenuItem();
         MnuMisDispositivos = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        mnuGraficosconsumo = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        MnuModificarDatos = new javax.swing.JMenuItem();
 
         jMenu5.setText("File");
         jMenuBar3.add(jMenu5);
@@ -47,6 +48,12 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblnombreusuario.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
+        lblnombreusuario.setText("User");
+        lblnombreusuario.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        getContentPane().add(lblnombreusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 420, -1, -1));
+        lblnombreusuario.getAccessibleContext().setAccessibleName("jLabel2\n");
 
         jMenu3.setText("INICIO");
 
@@ -85,15 +92,25 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
 
         jMenu7.setText("CONSUMO");
 
-        jMenuItem5.setText("Graficos de consumo");
-        jMenu7.add(jMenuItem5);
+        mnuGraficosconsumo.setText("Graficos de consumo");
+        mnuGraficosconsumo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuGraficosconsumoActionPerformed(evt);
+            }
+        });
+        jMenu7.add(mnuGraficosconsumo);
 
         jMenuBar2.add(jMenu7);
 
         jMenu8.setText("OPCIONES");
 
-        jMenuItem6.setText("Modificar datos Usuario");
-        jMenu8.add(jMenuItem6);
+        MnuModificarDatos.setText("Modificar datos Usuario");
+        MnuModificarDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnuModificarDatosActionPerformed(evt);
+            }
+        });
+        jMenu8.add(MnuModificarDatos);
 
         jMenuBar2.add(jMenu8);
 
@@ -116,8 +133,24 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
     private void MnuMisDispositivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnuMisDispositivosActionPerformed
         FrmMis_Dispositivos frm_mis = new FrmMis_Dispositivos();
         frm_mis.setVisible(true);
+        frm_mis.setLocationRelativeTo(null);
     }//GEN-LAST:event_MnuMisDispositivosActionPerformed
 
+    private void mnuGraficosconsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGraficosconsumoActionPerformed
+        Frmgraficos_consumo frm_gra = new Frmgraficos_consumo();
+        frm_gra.setVisible(true);
+        frm_gra.setLocationRelativeTo(null);
+    }//GEN-LAST:event_mnuGraficosconsumoActionPerformed
+
+    private void MnuModificarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnuModificarDatosActionPerformed
+        FrmModificar_Datos_usuario frm_mod = new FrmModificar_Datos_usuario();
+        frm_mod.setVisible(true);
+        frm_mod.setLocationRelativeTo(null);
+    }//GEN-LAST:event_MnuModificarDatosActionPerformed
+    
+     public void setNombreUsuario(String nombre) {
+        lblnombreusuario.setText("Bienvenido, " + nombre);
+    }
     /**
      * @param args the command line arguments
      */
@@ -155,6 +188,7 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MnuMisDispositivos;
+    private javax.swing.JMenuItem MnuModificarDatos;
     private javax.swing.JMenuItem MnuRegistroDispositivos;
     private javax.swing.JMenuItem MnuSalir;
     private javax.swing.JMenu jMenu11;
@@ -167,7 +201,7 @@ public class FrmSistema_monitoreo extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JLabel lblnombreusuario;
+    private javax.swing.JMenuItem mnuGraficosconsumo;
     // End of variables declaration//GEN-END:variables
 }

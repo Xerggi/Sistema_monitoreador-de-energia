@@ -19,7 +19,7 @@ public class UsuarioService {
     private UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
-
+    
     // Método para obtener la instancia Singleton
     public static UsuarioService getInstance(UsuarioRepository usuarioRepository) {
         if (instance == null) {
@@ -62,6 +62,12 @@ public class UsuarioService {
     }
     
     public void actualizarUsuario(Usuario usuario) {
+        if (usuario.getNombre() == null || usuario.getNombre().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío.");
+        }
+        if (usuario.getContrasena() == null || usuario.getContrasena().isEmpty()) {
+            throw new IllegalArgumentException("La contraseña no puede estar vacía.");
+        }
         usuarioRepository.actualizarUsuario(usuario);
         notifyObservers(usuario); 
     }
@@ -81,5 +87,7 @@ public class UsuarioService {
     public boolean validarUsuario(String nombre, String contrasena) {
         return usuarioRepository.validarUsuario(nombre, contrasena);
     }
+    
+    
 }
 

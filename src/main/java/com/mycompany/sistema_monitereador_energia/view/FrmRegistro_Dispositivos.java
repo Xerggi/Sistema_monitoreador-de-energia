@@ -4,6 +4,7 @@ package com.mycompany.sistema_monitereador_energia.view;
 import com.mycompany.sistema_monitereador_energia.factory.DatabaseConnection;
 import com.mycompany.sistema_monitereador_energia.model.DatabaseType;
 import com.mycompany.sistema_monitereador_energia.repository.DispositivoRepositoryPostgre;
+import com.mycompany.sistema_monitereador_energia.repository.MysqldispositivoRepository;
 import com.mycompany.sistema_monitereador_energia.service.DispositivoService;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,12 +17,8 @@ public class FrmRegistro_Dispositivos extends javax.swing.JFrame {
      
     public FrmRegistro_Dispositivos() {
         initComponents();
-         dispositivoService = new DispositivoService(new DispositivoRepositoryPostgre() {
-            @Override
-            protected Connection getConnection() throws SQLException {
-               return DatabaseConnection.getConnection(DatabaseType.MYSQL);
-            }
-        } );
+         dispositivoService = new DispositivoService(new MysqldispositivoRepository());
+         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         }
     /**
      * This method is called from within the constructor to initialize the form.

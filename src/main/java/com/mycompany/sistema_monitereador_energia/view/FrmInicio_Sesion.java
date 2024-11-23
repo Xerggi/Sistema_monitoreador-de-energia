@@ -21,9 +21,12 @@ import javax.swing.JOptionPane;
 public class FrmInicio_Sesion extends javax.swing.JFrame {
 
     private final UsuarioService usuarioService;
+    
     public FrmInicio_Sesion() {
         initComponents();
-        DatabaseType tipoBaseDatos = DatabaseType.MYSQL; // Aquí puedes elegir el tipo de base de datos
+        //CREO QUE FALTAN AGREGAR LAS OTRAS BASES DE DATOS
+        
+        DatabaseType tipoBaseDatos = DatabaseType.MYSQL;
         usuarioService = UsuarioService.getInstance(UsuarioRepositoryFactory.getRepository(tipoBaseDatos));
     }
 
@@ -144,6 +147,11 @@ public class FrmInicio_Sesion extends javax.swing.JFrame {
 
         cmbDatabaseType.setBackground(new java.awt.Color(73, 181, 172));
         cmbDatabaseType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MySQL", "PostgreSQL", "TextFile", " " }));
+        cmbDatabaseType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbDatabaseTypeActionPerformed(evt);
+            }
+        });
         jPanel2.add(cmbDatabaseType, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 340, 130, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, 430, 500));
@@ -170,27 +178,22 @@ public class FrmInicio_Sesion extends javax.swing.JFrame {
         String nombre = txtUsuario.getText();
         String contrasena = new String(txtcontrasena.getPassword());
         
+        
         if (nombre.isEmpty() || contrasena.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+        JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos", "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
+        //(this, "Por favor, complete todos los campos.");
         return; 
     }   
         
         //eliminar en caso de error
-        
-        
-        
-         Map<String, DatabaseType> dbTypeMap = Map.of(
-        "MySQL", DatabaseType.MYSQL,
-        "PostgreSQL", DatabaseType.POSTGRESQL,
-        "TextFile", DatabaseType.TEXTFILE
-        );
-        
-        
-        String selectedDb = (String) cmbDatabaseType.getSelectedItem();
-        
-        
+ 
+         //Map<String, DatabaseType> dbTypeMap = Map.of(
+        //"MySQL", DatabaseType.MYSQL,
+        //"PostgreSQL", DatabaseType.POSTGRESQL,
+        //"TextFile", DatabaseType.TEXTFILE
+        //); 
+        //String selectedDb = (String) cmbDatabaseType.getSelectedItem();
         //FUNCION LAMBDA
-        
         //DatabaseType dbType;
         //switch (selectedDb) {
         //case "MySQL" -> dbType = DatabaseType.MYSQL;
@@ -201,16 +204,17 @@ public class FrmInicio_Sesion extends javax.swing.JFrame {
            // return;
         //}
     //}
-    
         //ELIMINAR EN CASO DE ERROR
-         DatabaseType dbType = dbTypeMap.getOrDefault(selectedDb, null);
-            if (dbType == null) {
-            JOptionPane.showMessageDialog(this, "Tipo de base de datos no válido.");
-            return;
-        }
+         //DatabaseType dbType = dbTypeMap.getOrDefault(selectedDb, null);
+           // if (dbType == null) {
+            //JOptionPane.showMessageDialog(this, "Tipo de base de datos no válido.");
+            //return;
+        //}
     
-        UsuarioRepository usuarioRepo = UsuarioRepositoryFactory.getRepository(dbType);
-        UsuarioService usuarioService = UsuarioService.getInstance(usuarioRepo);
+        //UsuarioRepository usuarioRepo = UsuarioRepositoryFactory.getRepository(dbType);
+        //UsuarioService usuarioService = UsuarioService.getInstance(usuarioRepo);
+        
+        
         
         try {
             //********************************************************************//
@@ -220,15 +224,38 @@ public class FrmInicio_Sesion extends javax.swing.JFrame {
         if (sesionIniciada) {
             JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso.");
             FrmSistema_monitoreo frmsis = new FrmSistema_monitoreo();
+            frmsis.setNombreUsuario(nombre);
             frmsis.setVisible(true);
             limpiar();
         } else {
-            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "ADVERTENCIA", JOptionPane.ERROR_MESSAGE);
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al validar usuario: " + e.getMessage());
     }  
     }//GEN-LAST:event_btniniciarsesion1ActionPerformed
+
+    private void cmbDatabaseTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDatabaseTypeActionPerformed
+        
+         //Map<String, DatabaseType> dbTypeMap = Map.of(
+        //"MySQL", DatabaseType.MYSQL,
+        //"PostgreSQL", DatabaseType.POSTGRESQL,
+        //"TextFile", DatabaseType.TEXTFILE
+        //);
+
+        String selectedDb = (String) cmbDatabaseType.getSelectedItem();
+        DatabaseType dbType;
+        switch (selectedDb) {
+            case "MySQL" -> dbType = DatabaseType.MYSQL;
+            case "PostgreSQL" -> dbType = DatabaseType.POSTGRESQL;
+            case "TextFile" -> dbType = DatabaseType.TEXTFILE;
+            default -> throw new IllegalArgumentException("Tipo de base de datos no válido");
+        }
+            
+        UsuarioRepository usuarioRepo = UsuarioRepositoryFactory.getRepository(dbType);
+        UsuarioService usuarioService = UsuarioService.getInstance(usuarioRepo);
+        
+    }//GEN-LAST:event_cmbDatabaseTypeActionPerformed
     
     
     

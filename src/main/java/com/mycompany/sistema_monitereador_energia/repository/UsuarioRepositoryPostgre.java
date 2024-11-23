@@ -45,20 +45,20 @@ public abstract  class UsuarioRepositoryPostgre implements UsuarioRepository{
 
     @Override
     public List<Usuario> obtenerTodosLosUsuarios() {
-        List<Usuario> empleados = new ArrayList<>();
+        List<Usuario> usuarios = new ArrayList<>();
         String query = "SELECT * FROM usuarios";
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-                empleados.add(new Usuario(rs.getInt("id"),
+                usuarios.add(new Usuario(rs.getInt("id"),
                     rs.getString("nombre"),
                     rs.getString("contrasena"))); 
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return empleados;
+        return usuarios;
     }
 
     @Override

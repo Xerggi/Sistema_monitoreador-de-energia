@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +64,26 @@ public abstract class DispositivoRepositoryPostgre implements DispositivoReposit
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Dispositivo> obtenerTodosLosDispositivos() {
+       List<Dispositivo> dispositivos = new ArrayList<>();
+        String query = "SELECT * FROM usuarios";
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                dispositivos.add(new Dispositivo(rs.getInt("id"),
+                        rs.getString("tipo"),
+                        rs.getDouble("consumo_estimado"),
+                        rs.getDouble("consumo_actual"),
+                        rs.getInt("usuario_id"))); 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dispositivos;
     }
 }  
 
